@@ -8,11 +8,12 @@
         "microbit-pxt-timeanddate": "github:bsiever/microbit-pxt-timeanddate#v2.0.24"
     },
     "files": [
+        "main.blocks",
+        "main.ts",
         "README.md",
         "gatorlog.ts",
         "_locales/de/gatorLog-jsdoc-strings.json",
-        "_locales/de/gatorLog-strings.json",
-        "main.ts"
+        "_locales/de/gatorLog-strings.json"
     ],
     "testFiles": [
         "tests.ts"
