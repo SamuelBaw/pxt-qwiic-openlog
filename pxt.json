@@ -1,5 +1,5 @@
 {
-    "name": "gatorLog",
+    "name": "OpenLog",
     "version": "0.3.2",
     "description": "SparkFun gator:Log data logger and RTC",
     "license": "MIT",
@@ -26,5 +26,5 @@
     "supportedTargets": [
         "microbit"
     ],
-    "preferredEditor": "blocksprj"
+    "preferredEditor": "tsprj"
 }

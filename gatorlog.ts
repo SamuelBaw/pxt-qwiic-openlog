@@ -11,9 +11,11 @@
 * Distributed as-is; no warranty is given.
 */
 
+/* adapted to work with Qwiic OpenLog board"
+
 
 /**
- * Functions to operate the gatorlog sensor
+ * Functions to operate the Qwiic OpenLog board
  */
 
 enum ReturnDataType {
@@ -26,6 +28,8 @@ enum HeaderLine {
     YES = 1,
     NO = 0,
 }
+
+const ADDR = 0x2A
 
 //% color=#f44242 
 //% icon="\uf0ce"
@@ -43,6 +47,14 @@ namespace gatorLog {
 
     //The only reason we have this function is so we don't set currentFile to DELETEME.txt
     function dummyFile() {
+
+        //basa
+        let buf: Buffer = pins.createBuffer(1);
+        buf[0] = ADDR;
+        pins.i2cWriteBuffer(ADDR, buf, false);
+        buf = pins.i2cReadBuffer(ADDR, 1, false);
+        //basa
+
         command()
         serial.writeString("append DELETEME.txt" + carriageReturn)
         serial.readUntil(writeReady)
@@ -70,12 +82,11 @@ namespace gatorLog {
         pins.digitalWritePin(RST_pin, 1)
     }
 
-    function beginGeneric(TX_pin: SerialPin, RX_pin: SerialPin,  RST_pin: DigitalPin){
+    function beginGeneric(){
         basic.pause(2500)
-        serial.redirect(TX_pin, RX_pin, BaudRate.BaudRate9600)
-        resetHardware(RST_pin)
-        serial.readUntil(writeReady)
-        basic.pause(20)
+        //resetHardware(RST_pin)  - not used
+        //serial.readUntil(writeReady)
+        //basic.pause(20)
         dummyFile()
         return
     }
@@ -87,25 +98,10 @@ namespace gatorLog {
     //% blockId="gatorLog_begin" 
     //% block="initialize gator:log"
     //% group="init"
-    //% advanced=true
     export function begin() {
-        beginGeneric(SerialPin.P15, SerialPin.P14, DigitalPin.P13)
+        beginGeneric()
     }
 
-    /**
-    * Initializes gator:log and waits until it says it is ready to be written to.
-    */
-    //% weight=69
-    //% blockId="gatorLog_begin_custom" 
-    //% block="initializes gator:log with custom pins TX %TX_pin, RX %RX_pin, RST %RST_pin"
-    //% RX_pin.defl=SerialPin.P12
-    //% TX_pin.defl=SerialPin.P8
-    //% RST_pin.defl=DigitalPin.P13
-    //% group="init"
-    export function beginWithCustomPins(TX_pin: SerialPin, RX_pin: SerialPin, RST_pin: DigitalPin) {
-        beginGeneric(TX_pin,RX_pin,RST_pin)
-        return
-    }
 
     /**
     * Initializes date and time
