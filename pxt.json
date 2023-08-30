@@ -11,14 +11,15 @@
         "README.md",
         "gatorlog.ts",
         "_locales/de/gatorLog-jsdoc-strings.json",
-        "_locales/de/gatorLog-strings.json"
+        "_locales/de/gatorLog-strings.json",
+        "main.ts"
     ],
     "testFiles": [
         "tests.ts"
     ],
     "public": true,
     "targetVersions": {
-        "target": "4.0.16",
+        "target": "6.0.17",
         "targetId": "microbit"
     },
     "supportedTargets": [
