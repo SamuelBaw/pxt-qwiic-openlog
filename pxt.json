@@ -1,7 +1,7 @@
 {
     "name": "OpenLog",
     "version": "0.3.2",
-    "description": "SparkFun gator:Log data logger and RTC",
+    "description": "SparkFun open:Log data logger and RTC",
     "license": "MIT",
     "dependencies": {
         "core": "*",
@@ -11,9 +11,9 @@
         "main.blocks",
         "main.ts",
         "README.md",
-        "gatorlog.ts",
-        "_locales/de/gatorLog-jsdoc-strings.json",
-        "_locales/de/gatorLog-strings.json"
+        "openlog.ts",
+        "_locales/de/openLog-jsdoc-strings.json",
+        "_locales/de/openLog-strings.json"
     ],
     "testFiles": [
         "tests.ts"
