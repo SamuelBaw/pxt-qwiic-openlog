@@ -56,7 +56,7 @@ enum RegisterMap {
 //% color=#f44242 
 //% icon="\uf0ce"
 //% groups=['init', 'filesystem' ,'textfile', 'csv']
-namespace gatorLog {
+namespace openLog {
     // Functions for reading Particle from the gatorlog in Particle or straight adv value
 
     let commandMode = 0
@@ -135,7 +135,7 @@ namespace gatorLog {
     * Initializes gator:log and waits until it says it is ready to be written to.
     */
     //% weight=68 
-    //% blockId="gatorLog_begin" 
+    //% blockId="openLog_begin" 
     //% block="initialize gator:log"
     //% group="init"
     export function begin() {
@@ -147,7 +147,7 @@ namespace gatorLog {
     * Initializes date and time
     */
     //% weight=59 
-    //% blockId="gatorLog_set_Date" 
+    //% blockId="openLog_set_Date" 
     //% block="sets date and time with year %year, month %month, day %day, hour %hour, minute %minute"
     //% group="csv"
     export function setDateAndTime(year: number = 2021, month: number = 1, day: number = 1, hour: number = 0, minute: number = 0) {
@@ -162,7 +162,7 @@ namespace gatorLog {
     * Opens the file with the name provided (don't forget to provide an extension). If the file does not exist, it is created.
     */
     //% weight=58
-    //% blockId="gatorLog_openFile"
+    //% blockId="openLog_openFile"
     //% block="open file named %value"
     //% group="textfile"
     export function openFile(value: string) {
@@ -179,7 +179,7 @@ namespace gatorLog {
     * Removes the file with the provided name
     */
     //% weight=47
-    //% blockId="gatorLog_removeItem"
+    //% blockId="openLog_removeItem"
     //% block="remove file %value"
     //% group="filesystem"
     export function removeItem(value: string) {
@@ -194,7 +194,7 @@ namespace gatorLog {
     * Creates a folder. Note that this block does not open the folder that it creates
     */
     //% weight=49
-    //% blockId="gatorLog_mkDirectory"
+    //% blockId="openLog_mkDirectory"
     //% block="create folder with name %value"
     //% group="filesystem"
     export function mkDirectory(value: string) {
@@ -207,7 +207,7 @@ namespace gatorLog {
     * Opens a folder. Note that the folder must already exist on your SD card. To go back to the root/home folder, use "Change to '..' folder"
     */
     //% weight=48
-    //% blockId="gatorLog_chDirectory"
+    //% blockId="openLog_chDirectory"
     //% block="change to %value | folder"
     //% group="filesystem"
     export function chDirectory(value: string) {
@@ -222,7 +222,7 @@ namespace gatorLog {
     * Removes a folder
     */
     //% weight=45
-    //% blockId="gatorLog_removeDir"
+    //% blockId="openLog_removeDir"
     //% block="remove folder %value | and it's contents"
     //% group="filesystem"
     export function removeDir(value: string) {
@@ -236,7 +236,7 @@ namespace gatorLog {
     /**
     * Writes a line of text to the current open file. If no file has been opened, this will be recorded to the LOGxxxx.txt folder
     */
-    //% blockId="gatorLog_writeLine"
+    //% blockId="openLog_writeLine"
     //% weight=44
     //% block="write line %value | to current file"
     //% group="textfile"
@@ -255,7 +255,7 @@ namespace gatorLog {
     /**
     * Writes text to the current open file. If no file has been opened, this will be recorded to the LOGxxxx.txt folder
     */
-    //% blockId="gatorLog_writeText"
+    //% blockId="openLog_writeText"
     //% weight=43
     //% block="write %value | to current file"
     //% group="textfile"
@@ -275,7 +275,7 @@ namespace gatorLog {
     * Writes text to the current open file at the position specified. If no file has been opened, this will be recorded to the LOGxxxx.txt folder
     */
     //% weight=42
-    //% blockId="gatorLog_writeLineOffset"
+    //% blockId="openLog_writeLineOffset"
     //% block="write line %value | at position %offset"
     //% group="textfile"
     //% advanced=true
@@ -334,7 +334,7 @@ namespace gatorLog {
       * Opens a CSV File with the name provided (the extension .csv will be added automatically). If the file does not exist, it is created.
       */
     //% weight=49
-    //% blockId="gatorLog_openCSVFile"
+    //% blockId="openLog_openCSVFile"
     //% block="open csv file named %value"
     //% group="csv"
     export function openCSVFile(value: string) {
@@ -346,7 +346,7 @@ namespace gatorLog {
     /**
     * Writes a row to the current open CSV file with the actual date and time. If no file has been opened, this will be recorded to the LOGxxxx.txt folder
     */
-    //% blockId="gatorLog_writeRowWithTextToCSV"
+    //% blockId="openLog_writeRowWithTextToCSV"
     //% weight=48
     //% block="write one row with columns %values | to current csv file. Is Header %isHeader"
     //% isHeader.defl=HeaderLine.YES
@@ -359,7 +359,7 @@ namespace gatorLog {
     /**
     * Writes a row to the current open CSV file with the actual date and time. If no file has been opened, this will be recorded to the LOGxxxx.txt folder
     */
-    //% blockId="gatorLog_writeRowWithNumbersToCSV"
+    //% blockId="openLog_writeRowWithNumbersToCSV"
     //% weight=47
     //% block="write one row with columns %values | to current csv file. Is Header %isHeader"
     //% isHeader.defl=HeaderLine.NO
