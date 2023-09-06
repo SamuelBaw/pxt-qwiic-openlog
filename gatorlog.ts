@@ -31,6 +31,28 @@ enum HeaderLine {
 
 const ADDR = 0x2A
 
+enum RegisterMap {
+    id = 0x00,
+    status = 0x01,
+    firmwareMajor = 0x02,
+    firmwareMinor = 0x03,
+    i2cAddress = 0x1E,
+    logInit = 0x05,
+    createFile = 0x06,
+    mkDir = 0x07,
+    cd = 0x08,
+    readFile = 0x09,
+    startPosition = 0x0A,
+    openFile = 0x0B,
+    writeFile = 0x0C,
+    fileSize = 0x0D,
+    list = 0x0E,
+    rm = 0x0F,
+    rmrf = 0x10,
+    syncFile = 0x11,
+
+}
+
 //% color=#f44242 
 //% icon="\uf0ce"
 //% groups=['init', 'filesystem' ,'textfile', 'csv']
@@ -74,7 +96,25 @@ namespace gatorLog {
         return
     }
 
-    function resetHardware(RST_pin: DigitalPin){
+    function sendCommand(registerNumber: number, optionalString: string) {
+
+        if (optionalString.length > 0) {
+            let stringBuf: Buffer = pins.createBuffer(optionalString.length);
+            let sendBuf: Buffer = pins.createBuffer(optionalString.length + 1);
+            sendBuf[0] = registerNumber;
+            stringBuf = Buffer.fromUTF8(optionalString);
+            sendBuf.write(1, stringBuf);
+            pins.i2cWriteBuffer(ADDR, sendBuf, false);
+
+        }
+        else {
+            let sendBuf: Buffer = pins.createBuffer(1);
+            sendBuf[0] = registerNumber;
+            pins.i2cWriteBuffer(ADDR, sendBuf, false);
+        }
+    }
+
+    function resetHardware(RST_pin: DigitalPin) {
         pins.digitalWritePin(RST_pin, 1)
         basic.pause(100)
         pins.digitalWritePin(RST_pin, 0)
@@ -82,7 +122,7 @@ namespace gatorLog {
         pins.digitalWritePin(RST_pin, 1)
     }
 
-    function beginGeneric(){
+    function beginGeneric() {
         basic.pause(2500)
         //resetHardware(RST_pin)  - not used
         //serial.readUntil(writeReady)
@@ -158,9 +198,7 @@ namespace gatorLog {
     //% block="create folder with name %value"
     //% group="filesystem"
     export function mkDirectory(value: string) {
-        command()
-        serial.writeString("md " + value + carriageReturn)
-        serial.readUntil(commandReady)
+        sendCommand(RegisterMap.mkDir, value);
         basic.pause(20)
         return
     }
