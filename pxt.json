@@ -5,7 +5,7 @@
     "license": "MIT",
     "dependencies": {
         "core": "*",
-        "microbit-pxt-timeanddate": "github:bsiever/microbit-pxt-timeanddate#v2.0.24"
+        "microbit-pxt-timeanddate": "github:bsiever/microbit-pxt-timeanddate#v2.0.33"
     },
     "files": [
         "main.blocks",
