@@ -1,4 +1,4 @@
-# Data Logger
+# Data Logger SparkFun Qwiic OpenLog
  This micro:bit extension is based on spark-fun gator:log extension https://github.com/sparkfun/pxt-gator-log. The extension was changed in the following points:
 * functions added, to write CSV files to the SD card
 * functions added, to write time and date columns automatically
