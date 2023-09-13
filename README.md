@@ -2,39 +2,48 @@
  This micro:bit extension is based on spark-fun gator:log extension https://github.com/sparkfun/pxt-gator-log. The extension was changed in the following points:
 * functions added, to write CSV files to the SD card
 * functions added, to write time and date columns automatically
-* the hardware pins have been changed (see below)
+* communication protocol changed to I2C support
+* functions added to split string to allow sending larger strings than I2C allows
 
-The gator:log, which is an open source data logger based on the Serial OpenLog, can be used to write data to an SD card using a serial connection.
+The SparkFun Qwiic OpenLog can be used to write data to an SD card using a I2C connection.
 
-![SparkFun gator:log](https://raw.githubusercontent.com/sparkfun/pxt-gator-log/master/icon.png)  
+![15164-SparkFun_Qwiic_OpenLog-01](https://github.com/SamuelBaw/pxt-qwiic-openlog/assets/104888073/1996a771-da1c-4b05-9ba3-a1e3b531b488)
 
 ## Usage (Software)
-To use this package, go to https://makecode.microbit.org, click ``Add package`` and insert the following link to this repository: https://github.com/reifab/pxt-gator-log
+To use this package, go to https://makecode.microbit.org, click ``Add package`` and insert the following link to this repository: https://github.com/SamuelBaw/pxt-qwiic-openlog.git
 
 ## Usage (Hardware)
 Connection:
 | gator:log | micro:bit |
 |-----------|-----------|
-| 3V3       | 3V3       |
 | GND       | GND       |
-| RX        | P8        |
-| TX        | P12       |
-| RST       | P13       |
+| 3V3       | 3V3       |
+| SDA       | SDA        |
+| SCL       | SCL       |
 
 ## Example: Basic Functionality Test
 ```blocks
-gatorLog.beginWithCustomPins(SerialPin.P8, SerialPin.P12, DigitalPin.P13)
-gatorLog.mkDirectory("testFolder")
-gatorLog.chDirectory("testFolder")
-gatorLog.openCSVFile("testFile")
-gatorLog.writeRowWithTextToCSV(["Temperature - °C", "Pressure - Pa", "LightIntensity - Lux"], HeaderLine.YES)
-for (let index = 0; index < 1000; index++) {
-    gatorLog.writeRowWithNumbersToCSV([
-    23,
-    900,
-    300
-    ], HeaderLine.NO)
+if (openLog.begin()) {
+    basic.showIcon(IconNames.Yes)
+} else {
+    basic.showIcon(IconNames.No)
 }
+openLog.setDateAndTime(
+2023,
+9,
+13,
+9,
+0
+)
+openLog.mkDirectory("home")
+openLog.chDirectory("home")
+openLog.openCSVFile("tempLightLog")
+basic.forever(function () {
+    openLog.writeRowWithTextToCSV(["temp", "light"], HeaderLine.YES)
+    openLog.writeRowWithNumbersToCSV([input.temperature(), input.lightLevel()], HeaderLine.NO)
+    basic.pause(1000)
+})
+
 
 
 ```
