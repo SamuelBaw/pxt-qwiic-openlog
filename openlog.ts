@@ -25,8 +25,8 @@ enum ReturnDataType {
 }
 
 enum HeaderLine {
-    YES = 1,
-    NO = 0,
+    JA = 1,
+    NEIN = 0,
 }
 
 const ADDR = 0x2A
@@ -68,13 +68,7 @@ namespace openLog {
     // Functions for reading Particle from the gatorlog in Particle or straight adv value
 
     let currentFile = ""
-    let carriageReturn = String.fromCharCode(13)
-    let newLine = String.fromCharCode(10)
-    //let newLine = String.fromCharCode(10)
     let rowCounter = 0
-
-    let newLineString: Buffer = pins.createBuffer(1);
-    newLineString = Buffer.fromUTF8(newLine);
 
     // internal function for sending a command without answer
     function sendCommand(registerNumber: number, optionalString: string) {
@@ -115,7 +109,6 @@ namespace openLog {
         return pins.i2cReadNumber(ADDR, NumberFormat.UInt8LE,false);
 
     }
-
 
     //internal function for synchronizing the opened file with the sent message
     //an opened file must be synced (or closed) to actually save the sent data 
@@ -269,29 +262,21 @@ namespace openLog {
     export function writeText(textToWrite: string) {
         // remember, the rx buffer on the i2c openlog is 32 bytes
         // and the register address takes up 1 byte so we can only
-        // send 31 data bytes at a time
-        /*if (textToWrite.length > 31) {
-            return;
-            //return -1;
-        }*/
+        // send 31 data bytes at a time. This function splits the input
+        // string to multiple strings if the size exceeds the STRING_MAX_SEND_LENGTH.
+
         if (textToWrite.length > 0) {
             let numOfMaxLengthStrings = Math.floor(textToWrite.length / STRING_MAX_SEND_LENGTH);
             let rest = textToWrite.length % STRING_MAX_SEND_LENGTH;
-
-            serial.writeLine("Hello");
 
             for (let i = 0; i <= textToWrite.length; i = i + STRING_MAX_SEND_LENGTH) {
 
                 if (i + STRING_MAX_SEND_LENGTH <= textToWrite.length)
                 {
-                    writeText_maxLengthGuaranteed(textToWrite.substr(i, STRING_MAX_SEND_LENGTH));
-                    serial.writeLine(textToWrite.substr(i, STRING_MAX_SEND_LENGTH));
+                    writeText_maxLengthGuaranteed(textToWrite.substr(i, STRING_MAX_SEND_LENGTH)); // send 31 byte package
                 }
-            
             }
-
-            writeText_maxLengthGuaranteed(textToWrite.substr(numOfMaxLengthStrings * STRING_MAX_SEND_LENGTH,  rest));
-
+            writeText_maxLengthGuaranteed(textToWrite.substr(numOfMaxLengthStrings * STRING_MAX_SEND_LENGTH,  rest)); // send rest
         }
         syncFile(); // text is actually written to the file, no closing necessary
         basic.pause(20)
@@ -312,6 +297,7 @@ namespace openLog {
 
     }
 
+    // write a row to the csv file
     function writeRowToCSVTypeAny(values: any[], isHeader: HeaderLine) {
         let row = []
 
@@ -323,10 +309,10 @@ namespace openLog {
             }
         }
 
-        if (isHeader == HeaderLine.YES) {
-            row.insertAt(0, "Row nr.");
-            row.insertAt(1, "Date");
-            row.insertAt(2, "Time");
+        if (isHeader == HeaderLine.JA) {
+            row.insertAt(0, "Zeile nr.");
+            row.insertAt(1, "Datum");
+            row.insertAt(2, "Zeit");
         } else {
             let time
             let date
