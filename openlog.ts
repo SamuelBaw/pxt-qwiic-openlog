@@ -310,7 +310,7 @@ namespace openLog {
         }
 
         if (isHeader == HeaderLine.JA) {
-            row.insertAt(0, "Zeile nr.");
+            row.insertAt(0, "Zeile Nr.");
             row.insertAt(1, "Datum");
             row.insertAt(2, "Zeit");
         } else {
